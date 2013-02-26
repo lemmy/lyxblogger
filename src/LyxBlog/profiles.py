@@ -257,15 +257,13 @@ class Credentials:
         pr3 ("\nURL")
         while (1):
             pr3 ("Please enter your WordPress URL")
-            pr3 ("Example: cool_site.wordpress.com")
+            pr3 ("Example: http://cool_site.wordpress.com or https://cool_site.wordpress.com")
             url = sys.stdin.readline().replace('\n', '')
             if url != '': break
-        url = url.replace('http://', '')
-        url = url.replace('www.', '')
         if url.endswith('/'):
-            url = 'http://' + url + 'xmlrpc.php'
+            url = url + 'xmlrpc.php'
         else:
-            url = 'http://' + url + '/xmlrpc.php'
+            url = url + '/xmlrpc.php'
         pr3 ("The PhP page we'll be talking to is " + url)
         pr3 ("\nPROMPT for PASSWORD?")
         pr3 ("Press ENTER now to be prompted each time (recommended).")

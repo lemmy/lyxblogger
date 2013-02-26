@@ -40,7 +40,7 @@ def find_local_image_tag(in_html, ELYXER_ENGINE):
         img_exp = re.compile('''
             <img\ class="embedded"\          # The beginning of an <img> tag -- note two escaped spaces
             src="           # Note use of double quotes instead of single
-            (?!http://)     # Negative lookahead expression (if it has http:// it's already been changed to web reference)
+            (?!(http|https)://)     # Negative lookahead expression (if it has http:// or https:// it's already been changed to web reference)
             ..*?            # Non-greedy (short as possible match) of stuff in middle
             />              # The closing of the <img> tag
             ''', re.VERBOSE)
@@ -49,7 +49,7 @@ def find_local_image_tag(in_html, ELYXER_ENGINE):
     # <img src='0_home_jd_Escritorio_rv-8_tiny.jpg' alt='image: 0_home_jd_Escritorio_rv-8_tiny.jpg' />
         img_exp = re.compile('''
             <img\ src='     # The beginning of an <img> tag -- note the escaped space in the verbose regex
-            (?!http://)     # Negative lookahead expression (if it has http:// it's already been changed to web reference)
+            (?!(http|https)://)     # Negative lookahead expression (if it has http:// or https:// it's already been changed to web reference)
             ..*?            # Non-greedy (short as possible match) of stuff in middle
             />              # The closing of the <img> tag
             ''', re.VERBOSE)
@@ -80,10 +80,10 @@ def up_images(in_html, wp_client_obj, ELYXER_ENGINE, in_DIR_OFFSET):
         except (gaierror, WordPressException):
             handle_gaierror()
         try:
-            assert(imageSrc.startswith('http://'))
+            assert(imageSrc.startswith('http://') or imageSrc.startswith('https://'))
         except AssertionError:
             print("There was a problem uploading your image.")
-            print("imageSrc should start with http://")
+            print("imageSrc should start with http:// or https://")
             print("Please contact the author at jackdesert@gmail.com")
             handle_general_error()
         try:
